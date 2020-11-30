@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="admin_navigation.rdanGroup" version_id="1000000" version_string="1.0.0"><![CDATA[Admin navigation groups]]></phrase>
+  <phrase title="option.rdanDefaultGroupId" version_id="1000000" version_string="1.0.0"><![CDATA[Default Group Admin Navigation]]></phrase>
+  <phrase title="option_explain.rdanDefaultGroupId" version_id="1000000" version_string="1.0.0"><![CDATA[]]></phrase>
+  <phrase title="option_group.rdanAdminNavigation" version_id="1000000" version_string="1.0.0"><![CDATA[[RD] Advanced Admin Navigation]]></phrase>
+  <phrase title="option_group_description.rdanAdminNavigation" version_id="1000000" version_string="1.0.0"><![CDATA[]]></phrase>
+  <phrase title="rdan_admin_navigation_group" version_id="1000000" version_string="1.0.0"><![CDATA[Admin Navigation Group]]></phrase>
+  <phrase title="rdan_admin_navigation_group_explain" version_id="1000000" version_string="1.0.0"><![CDATA[Select admin navigation group to display with this admin]]></phrase>
+  <phrase title="rdan_collapse_all" version_id="1000000" version_string="1.0.0"><![CDATA[Collapse All]]></phrase>
+  <phrase title="rdan_create_new_group" version_id="1000000" version_string="1.0.0"><![CDATA[Create New Group]]></phrase>
+  <phrase title="rdan_default_admin_navigation" version_id="1000000" version_string="1.0.0"><![CDATA[Default Admin Navigation]]></phrase>
+  <phrase title="rdan_edit_group" version_id="1000000" version_string="1.0.0"><![CDATA[Edit Group]]></phrase>
+  <phrase title="rdan_expand_all" version_id="1000000" version_string="1.0.0"><![CDATA[Expand All]]></phrase>
+  <phrase title="rdan_reset_default" version_id="1000000" version_string="1.0.0"><![CDATA[Reset Default]]></phrase>
+  <phrase title="rdan_save_group" version_id="1000000" version_string="1.0.0"><![CDATA[Save Group]]></phrase>
+  <phrase title="rdan_set_x_as_default_group" version_id="1000000" version_string="1.0.0"><![CDATA[Set '{title}' as the default group]]></phrase>
+</phrases>

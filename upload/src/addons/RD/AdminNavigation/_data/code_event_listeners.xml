@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<code_event_listeners>
+  <listener event_id="entity_structure" execute_order="10" callback_class="RD\AdminNavigation\Listener" callback_method="adminEntityStructure" active="1" hint="XF\Entity\Admin" description="Extends the XF\Entity\Admin structure"/>
+</code_event_listeners>

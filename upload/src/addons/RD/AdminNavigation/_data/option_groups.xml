@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<option_groups>
+  <group group_id="rdanAdminNavigation" icon="fa-bars" display_order="101200" debug_only="0"/>
+</option_groups>

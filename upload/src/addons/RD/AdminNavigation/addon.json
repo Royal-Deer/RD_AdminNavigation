@@ -1,0 +1,14 @@
+{
+    "legacy_addon_id": "RD/AdminNavigation",
+    "title": "[RD] Advanced Admin Navigation",
+    "description": "Customize admin navigation",
+    "version_id": 1000030,
+    "version_string": "1.0.0",
+    "dev": "RipeDurian",
+    "dev_url": "",
+    "faq_url": "",
+    "support_url": "",
+    "extra_urls": [],
+    "require": [],
+    "icon": "fa-bars"
+}

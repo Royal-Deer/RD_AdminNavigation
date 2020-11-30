@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates>
+  <template type="admin" title="rdan_admin_edit" version_id="1000000" version_string="1.0.0"><![CDATA[<xf:if is="{$rdanGroups}">
+	<hr class="formRowSep" />
+	<xf:selectrow name="rdan_group_id" label="{{ phrase('rdan_admin_navigation_group') }}" value="{$admin.rdan_group_id}">
+		<xf:option value="0" label="({{ phrase('rdan_default_admin_navigation') }})" />
+		<xf:foreach loop="$rdanGroups" value="$group">
+			<xf:option value="{$group.group_id}" label="{$group.group_title}" />
+		</xf:foreach>
+		<xf:html>
+			<div class="js-descTarget eventDescription">{{ phrase('rdan_admin_navigation_group_explain') }}</div>
+		</xf:html>
+	</xf:selectrow>
+</xf:if>]]></template>
+  <template type="admin" title="rdan_admin_navigation_group_delete" version_id="1000000" version_string="1.0.0"><![CDATA[<xf:title>{{ phrase('confirm_action') }}</xf:title>
+
+<xf:form action="{{ link('rdan-groups/delete', $group) }}" ajax="true" class="block">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:inforow rowtype="confirm">
+				{{ phrase('please_confirm_that_you_want_to_delete_following') }}:
+				<strong><a href="{{ link('rdan-groups/edit', $group) }}">{$group.group_title}</a></strong>
+			</xf:inforow>
+		</div>
+		<xf:submitrow rowtype="simple" icon="delete" />
+	</div>
+	<xf:redirect />
+</xf:form>]]></template>
+  <template type="admin" title="rdan_admin_navigation_group_edit" version_id="1000000" version_string="1.0.0"><![CDATA[<xf:if is="$group.isInsert()">
+	<xf:title>{{ phrase('rdan_create_new_group') }}</xf:title>
+<xf:else />
+	<xf:title>{{ phrase('rdan_edit_group') }}: {$group.group_title}</xf:title>
+</xf:if>
+
+<xf:pageaction if="$group.isUpdate()">
+	<xf:button href="{{ link('rdan-groups/delete', $group) }}" icon="delete" overlay="true" />
+</xf:pageaction>
+
+<xf:js src="vendor/nestable/jquery.nestable.min.js" />
+<xf:js src="xf/nestable.js" />
+<xf:css src="public:nestable.less" />
+
+<xf:css src="rdan_admin_navigation_list.less" />
+<xf:js src="rd/rdan/group-edit.js" />
+
+<xf:form action="{{ link('rdan-groups/save', $group) }}" class="block" ajax="true">
+	<div class="block-container">
+		<div class="block-body">
+			<xf:textboxrow label="{{ phrase('title') }}" name="group_title"
+				value="{$group.group_title}" />
+			<hr class="formRowSep" />
+
+			<div class="nestable-container enableNav" data-xf-init="nestable" data-parent-id="" data-group-id="1">
+				<xf:macro name="navigation_list" arg-children="{$navTree}" arg-navigationOptions="{$navigationOptions}" />
+				<xf:hiddenval name="navigation" value="" />
+			</div><div class="nestable-container disableNav" data-xf-init="nestable" data-parent-id="" data-group-id="1">
+				<xf:macro name="navigation_list" arg-children="{$disableTree}" arg-navigationOptions="{$navigationOptions}" />
+				<xf:hiddenval name="disable_navigation" value="" />
+			</div>
+		</div>
+		<xf:hiddenval name="navigation_options" class="navigationOptions">{}</xf:hiddenval>
+		<xf:submitrow sticky="true" icon="save"><xf:html>
+			<xf:button type="submit" name="resetdefault" value="1">{{ phrase('rdan_reset_default') }}</xf:button>
+			<a href="#" class="collapseAll button" data-xf-click="collapse-all">{{ phrase('rdan_collapse_all') }}</a>
+			<a href="#" class="expandAll button" data-xf-click="expand-all">{{ phrase('rdan_expand_all') }}</a>
+		</xf:html></xf:submitrow>
+	</div>
+</xf:form>
+
+<xf:macro name="navigation_list" arg-children="!" arg-navigationOptions="{{ [] }}">
+	<ol class="nestable-list">
+		<xf:foreach loop="$children" key="$id" value="$child">
+			<xf:macro name="navigation_list_entry"
+					  arg-nav="{$child.record}"
+					  arg-children="{$child.children}"
+					  arg-navigationOptions="{$navigationOptions}" />
+		</xf:foreach>
+	</ol>
+</xf:macro>
+
+<xf:macro name="navigation_list_entry" arg-nav="!" arg-children="!" arg-title="{{ $nav.title }}" arg-navigationOptions="{{ [] }}">
+	<li class="nestable-item" data-id="{$nav.navigation_id}">
+		<xf:if is="{$navigationOptions.{$nav.navigation_id}} && {$navigationOptions.{$nav.navigation_id}.title}">
+			<xf:set var="$title" value="{$navigationOptions.{$nav.navigation_id}.title}" />
+		<xf:else />
+			<xf:set var="$title" value="{$nav.title}" />
+		</xf:if>
+		<div class="nestable-handle"><i class="fa fa-bars" aria-hidden="true"></i></div>
+		<div class="nestable-content">{$title}</div>
+		<span class="js-edit" data-xf-click="toggle" data-target="< :next" data-hide=".coupon--trigger"><i class="fa fa-pencil"></i></span>
+		<div class="edit-content block-body block-body--collapsible">
+			<xf:textboxrow name="nav_data[{$nav.navigation_id}][title]" value="{$title}"
+				label="{{ phrase('title') }}" />
+			<xf:textboxrow name="nav_data[{$nav.navigation_id}][link]" value="{$nav.link}"
+				label="{{ phrase('link') }}"
+				dir="ltr" />
+		</div>
+		<xf:if is="$children is not empty">
+			<xf:macro name="navigation_list" arg-children="{$children}" arg-navigationOptions="{$navigationOptions}" />
+		</xf:if>
+	</li>
+</xf:macro>]]></template>
+  <template type="admin" title="rdan_admin_navigation_group_list" version_id="1000000" version_string="1.0.0"><![CDATA[<xf:title>{{ phrase('rdan_admin_navigation_group') }}</xf:title>
+
+<xf:pageaction>
+	<xf:button href="{{ link('rdan-groups/add') }}" icon="add">{{ phrase('rdan_create_new_group') }}</xf:button>
+</xf:pageaction>
+
+<xf:macro name="navigation_group_list" arg-groups="!" arg-defaultGroupId="0">
+	<xf:macro name="navigation_group_list_entry"
+		arg-group="{{ {
+			'group_id':0,
+			'group_title': phrase('rdan_default_admin_navigation')
+		} }}"
+		arg-depth="1"
+		arg-defaultGroupId="{$defaultGroupId}"
+	/>
+	<xf:if is="$groups is not empty">
+		<xf:foreach loop="$groups" value="$group">
+			<xf:macro name="navigation_group_list_entry" arg-group="{$group}" arg-depth="2"
+				arg-defaultGroupId="{$defaultGroupId}"
+			/>
+		</xf:foreach>
+	</xf:if>
+</xf:macro>
+
+<xf:macro name="navigation_group_list_entry" arg-group="!" arg-defaultGroupId="0" arg-depth="1">
+	<xf:datarow>
+		<xf:main
+			hash="{$group.group_id}"
+			href="{{ ($group.group_id ? link('rdan-groups/edit', $group) : '') }}"
+			label="{$group.group_title}"
+			class="dataList-cell--d{$depth}"
+		/>
+		<xf:toggle name="default_group_id"
+			type="radio"
+			value="{$group.group_id}"
+			selected="{{ {$defaultGroupId} == $group.group_id ? 1 : 0 }}"
+			class="dataList-cell--separated"
+			submit="true"
+		/>
+		<xf:if is="$group.group_id">
+			<xf:delete href="{{ link('rdan-groups/delete', $group) }}" />
+		<xf:else />
+			<xf:cell class="dataList-cell--alt">&nbsp;</xf:cell>
+		</xf:if>
+	</xf:datarow>
+</xf:macro>
+
+
+<xf:form action="{{ link('rdan-groups/toggle') }}" class="block" ajax="true">
+	<div class="block-outer">
+		<xf:macro template="filter_macros" name="quick_filter" arg-key="rdan-groups" arg-class="block-outer-opposite" />
+	</div>
+	<div class="block-container">
+		<div class="block-body">
+			<xf:datalist>
+				<xf:macro name="navigation_group_list" arg-groups="{$groups}"
+						  arg-defaultGroupId="{$xf.options.rdanDefaultGroupId}"
+						  />
+			</xf:datalist>
+		</div>
+	</div>
+	<xf:hiddenval name="default_group_id_original">{$xf.options.rdanDefaultGroupId}</xf:hiddenval>
+</xf:form>]]></template>
+  <template type="admin" title="rdan_admin_navigation_list.less" version_id="1000000" version_string="1.0.0"><![CDATA[@color_1: @xf-paletteColor5;
+@color_2: @xf-paletteColor2;
+@color_3: #2ea8e5;
+@color_4: @xf-paletteColor3;
+@background_color_1: #e5e5e5;
+
+.nestable-container{
+	display: inline-block;
+	width: 50%;
+	vertical-align: top;
+	box-sizing: border-box;
+	padding: 5px;
+}
+.enableNav .nestable-item .nestable-content{
+	color: @xf-paletteColor4;
+}
+.nestable-item{
+	position: relative;
+	.nestable-content{
+		padding-right: 35px;
+	}
+	.js-edit{
+		height: 30px;
+		width: 30px;
+		position: absolute;
+		right: 0;
+		top: 0;
+		padding-top: 6px;
+		text-align: center;
+	}
+	.edit-content{
+		display: none;
+	}
+}
+.dd-empty {
+	display: block;
+	position: relative;
+	margin: 0;
+	padding: 0;
+	min-height: 20px;
+	font-size: 13px;
+	line-height: 20px;
+	margin: 5px 0;
+	padding: 0;
+	min-height: 30px;
+	background: #f2fbff;
+	border: 1px dashed #b6bcbf;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	border: 1px dashed #bbb;
+	min-height: 100px;
+	background-color: @background_color_1;
+	background-image: -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), -webkit-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+	background-image: -moz-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), -moz-linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+	background-image: linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff), linear-gradient(45deg, #fff 25%, transparent 25%, transparent 75%, #fff 75%, #fff);
+	background-size: 60px 60px;
+	background-position: 0 0, 30px 30px;
+}
+.disableNav {
+	.dd-item {
+		.dd-handle {
+			background: #f1f1f1;
+			color: @xf-paletteNeutral2;
+			border: 1px solid @xf-paletteNeutral2;
+		}
+	}
+}]]></template>
+  <template type="admin" title="rdan_admin_navigation_list_nav" version_id="1000000" version_string="1.0.0"><![CDATA[<li class="dd-item navItem _depth{$navigation.depth}" id="_{$navigation.navigation_id}" data-id="{$navigation.navigation_id}">
+	<h4 class="dd-handle">
+		<em>{$navigation.title}{$navigation.depth}</em>
+		<dfn>{$navigation.link}</dfn>
+	</h4>
+	<div class="navItemInner" data-orgtitle="{$navigation.orgTitle}" data-orglink="{$navigation.orgLink}">
+		<a href="#" class="editHandle">edit</a>
+		<div class="customEdit">
+			<xf:textboxrow label="{{ phrase('title') }}" name="title" inputclass="navTitle" value="{$navigation.title}">
+				<xf:explain>{$navigation.orgTitle}</xf:explain>
+			</xf:textboxrow>
+			<xf:textboxrow label="{{ phrase('link') }}" name="link" inputclass="navLink" value="{$navigation.link}">
+				<xf:explain>{$navigation.orgLink}</xf:explain>
+			</xf:textboxrow>
+		</div>
+	</div>
+	<xf:if is="{$renderedChildren}">
+		<ol class="childMenu dd-list">
+			<xf:foreach loop="$renderedChildren" value="$child">
+				{$child|raw}
+			</xf:foreach>
+		</ol>
+	</xf:if>
+</li>]]></template>
+</templates>

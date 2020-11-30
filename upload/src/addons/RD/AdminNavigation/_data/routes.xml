@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<routes>
+  <route route_type="admin" route_prefix="rdan-groups" format=":int&lt;group_id,group_title&gt;/" controller="RD\AdminNavigation:AdminNavigationGroup" context="rdanGroup"/>
+</routes>

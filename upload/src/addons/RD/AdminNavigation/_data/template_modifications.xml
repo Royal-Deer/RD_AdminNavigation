@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template_modifications>
+  <modification type="admin" template="admin_edit" modification_key="rdan_admin_edit" description="Add navigation group for admin edit" execution_order="10" enabled="1" action="str_replace">
+    <find><![CDATA[<xf:submitrow]]></find>
+    <replace><![CDATA[<xf:include template="rdan_admin_edit" />$0]]></replace>
+  </modification>
+</template_modifications>
